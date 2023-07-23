@@ -6,7 +6,7 @@ export const CommentInput = styled.input`
   border-radius: 20px;
   margin-left: 20px;
   margin-bottom: 20px;
-  width: 300px;
+  width: 370px;
   height: 30px;
   padding: 10px;
   color: black;
@@ -17,7 +17,7 @@ export const StPriceInput = styled.input`
   border: 1px solid black;
   border-radius: 20px;
   margin-left: 20px;
-  width: 80px;
+  width: 100px;
   height: 20px;
   padding: 10px;
   color: black;
@@ -166,7 +166,7 @@ export const StDropdownCtn = styled.div`
 
 export const StDropdown = styled.div`
   user-select: none;
-  width: 180px;
+  width: 230px;
   margin: 20px;
   position: relative;
 `;
