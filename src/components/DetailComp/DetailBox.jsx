@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled, { css } from 'styled-components';
 import { getComments, addComment, deleteComment, updateComment } from '../../api/comments';
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -31,6 +30,7 @@ import {
   StReviewInfo,
   StReviewInfo2
 } from './DetailStyles';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const DetailBox = ({ placeData }) => {
   const navigate = useNavigate();
@@ -48,16 +48,29 @@ const DetailBox = ({ placeData }) => {
     setIsOpen(false);
   };
 
+  const [authLoading, setAuthLoading] = useState(true);
+  // 로그인한 사용자 정보를 관리하는 상태 변수
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    // onAuthStateChanged 메서드로 사용자 정보를 받아옴
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+      setAuthLoading(false); // 사용자 정보를 받아오는 것이 완료됨을 표시
+    });
+
+    // 컴포넌트가 unmount 될 때 리스너를 정리
+    return () => unsubscribe();
+  }, []);
+
   const { data } = useQuery('comments', getComments, {
     onSuccess: (data) => {
-      console.log('Fetched data:', data);
       setDisplayedComments(data.filter((comment) => comment.shopId === shopId));
     }
   });
 
   const { data: userData } = useQuery('users', getUsers, {
     onSuccess: (userData) => {
-      console.log('Fetched userData:', userData);
     }
   });
   const shopId = params.id;
@@ -70,7 +83,6 @@ const DetailBox = ({ placeData }) => {
 
   //가격정보 select창 관련
   const currentPlace = placeData.category_name.split('>').pop().trim();
-  console.log('currentPlace=>', currentPlace);
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState('');
   const showDropdown = () => {
@@ -126,6 +138,7 @@ const DetailBox = ({ placeData }) => {
     }
   })();
 
+
   const addComma = (value) => {
     // 입력된 값에서 숫자 이외의 문자를 모두 제거
     const numericValue = value.replace(/[^\d]/g, '');
@@ -147,7 +160,6 @@ const DetailBox = ({ placeData }) => {
   const commentRatingLength = commentRatingArr?.length;
   // 총 별점 평균
   const RatingAvg = (commentRatingSum / commentRatingLength).toFixed(2);
-  console.log(RatingAvg);
 
   const queryClient = useQueryClient();
 
@@ -210,6 +222,11 @@ const DetailBox = ({ placeData }) => {
     const date = new Date(dateString);
     return isNaN(date) ? 'Invalid Date' : date.toLocaleDateString('ko-KR', options);
   };
+
+      // 사용자 정보 로딩 중이면 로딩 스피너 또는 로딩 메시지를 보여줄 수도 있음
+      if (authLoading) {
+        return <div>Loading...</div>;
+      }
   return (
     <>
       <StDetailPage style={{ marginTop: '100px' }}>
@@ -248,7 +265,7 @@ const DetailBox = ({ placeData }) => {
                   <StReviewInfo2>회원권 : {comment.selected}</StReviewInfo2>
                   <StReviewInfo2>가격 : {comment.price}₩</StReviewInfo2>
                   <StReviewInfo2>리뷰 내용 : {comment.comment}</StReviewInfo2>
-                  {comment.userId === auth.currentUser.uid ? (
+                  {(auth.currentUser.uid != null) && (comment.userId === auth.currentUser.uid) && (
                     <StCommentBtnCtn>
                       <StCommentButtons onClick={openModal}>수정</StCommentButtons>
                       <StCommentButtons
@@ -259,8 +276,6 @@ const DetailBox = ({ placeData }) => {
                         삭제
                       </StCommentButtons>
                     </StCommentBtnCtn>
-                  ) : (
-                    <></>
                   )}
 
                   {isOpen && (
