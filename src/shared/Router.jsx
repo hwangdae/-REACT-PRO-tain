@@ -18,12 +18,13 @@ const Router = () => {
     if (token) {
       setIsLoggedIn(true);
     } else {
-      // 임시로 true값으로 설정.
       setIsLoggedIn(false);
     }
     setIsCheckingLogin(false);
+    setIsCheckingLogin(false);
   }, [isLoggedIn]);
   if (isCheckingLogin) {
+    return <div>페이지 로딩중입니다..!</div>;
     return <div>페이지 로딩중입니다..!</div>;
   }
 
