@@ -246,6 +246,21 @@ export const StReviewInfoModal = styled.div`
   margin-top: 20px;
 `;
 
+export const StReviewInfoWtModal = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  color: #ff6e6e;
+  background-color: white;
+  border: 1px solid #ff6e6e;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 1rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
 export const StCloseModalBtn = styled.button`
   background-color: White;
   border: 1px solid black;
@@ -283,4 +298,21 @@ export const StReviewInfo = styled.div`
   margin: 0 1rem;
   margin-top: 20px;
   justify-content: center;
+`;
+
+export const StAddBtn = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  color: #ff6e6e;
+  background-color: white;
+  border: 1px solid #ff6e6e;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 1rem;
+  margin-top: -5px;
+  justify-content: center;
+  width: 380px;
 `;
