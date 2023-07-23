@@ -1,7 +1,7 @@
 import React from 'react';
 import { updateComment } from '../../api/comments';
 import { useState } from 'react';
-import { useMutation} from 'react-query';
+import { useMutation, useQueryClient, } from 'react-query';
 import { VscTriangleDown } from 'react-icons/vsc';
 import {
   CommentInput,
@@ -18,11 +18,18 @@ import {
 } from './DetailStyles';
 
 const DetailUpdate = ({ item, placeData }) => {
+  const queryClient = useQueryClient();
+
+  const updateMutation = useMutation(updateComment, {
+    onSuccess: () => {
+      queryClient.invalidateQueries('comments');
+    }
+  });
+
   const [comment, setComment] = useState(item.comment);
   const [rating, setRating] = useState(item.rating);
 
   const currentPlace = placeData.category_name.split('>').pop().trim();
-  console.log('currentPlace=>', currentPlace);
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState(item.selected);
   const showDropdown = () => {
@@ -91,10 +98,6 @@ const DetailUpdate = ({ item, placeData }) => {
   };
   //가격정보 select창 관련
 
-  const updateMutation = useMutation(updateComment, {
-    onSuccess: () => {}
-  });
-
   const updateCommentHandler = async (id) => {
     if (!comment || rating === 0 || !selected || !price) {
       alert('모든 항목을 입력하세요');
@@ -102,7 +105,6 @@ const DetailUpdate = ({ item, placeData }) => {
     } else {
       const confirmed = window.confirm('이 댓글을 수정하시겠습니까?');
       if (confirmed) {
-        updateMutation.mutate(id);
 
         const updatedComment = {
           comment,

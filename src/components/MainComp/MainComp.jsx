@@ -7,10 +7,6 @@ import KakaoMap from './KakaoMap';
 const MainComp = () => {
   const navigate = useNavigate()
 
-  useEffect(() => {
-    console.log("auth=>", auth);
-  }, []);
-
   const HandleLogOut = async (event) => {
     event.preventDefault();
     try {
