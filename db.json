@@ -61,14 +61,24 @@
       "id": "KBeLcc9"
     },
     {
-      "shopId": "27091506",
-      "comment": "2",
-      "rating": 2,
-      "userId": "qsn5T77abRgBEYiDHYCClt2EB252",
-      "selected": "헬스이용권 1개월",
-      "price": "2",
-      "createdAt": "2023-07-23T03:37:51.917Z",
-      "id": "v2MTR9W"
+      "shopId": "783197989",
+      "comment": "단미짱 수정수정",
+      "rating": 3,
+      "userId": "knVhnnVoarOno208AlpcB8NesDN2",
+      "selected": "필라테스 회원권 3개월",
+      "price": "50,000",
+      "createdAt": "2023-07-22T15:52:59.128Z",
+      "id": "EJ7pfeK"
+    },
+    {
+      "shopId": "847611475",
+      "comment": "라노라노 밀라노 ~ 수정22222",
+      "rating": 5,
+      "userId": "knVhnnVoarOno208AlpcB8NesDN2",
+      "selected": "PT 10회",
+      "price": "500,000",
+      "createdAt": "2023-07-23T00:05:02.423Z",
+      "id": "uJO4OYs"
     }
   ],
   "users": [
