@@ -11,30 +11,32 @@ export const MapLayout = styled.div`
   .infoWindow-wrap {
     width: 320px;
   }
-  .infoWindow-inner{
-    padding : 15px 10px 0px 10px;
+  .infoWindow-inner {
+    padding: 15px 10px 0px 10px;
   }
-  .infoWindow-title{
+  .infoWindow-title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
   }
-  .infoWindow-category{
-    font-size:12px;
+  .infoWindow-category {
+    font-size: 12px;
     color: #a3aab0;
     font-weight: bold;
     margin-bottom: 8px;
   }
-  .infoWindow-address{
+  .infoWindow-address {
     font-size: 14px;
     margin-bottom: 2px;
   }
-  .infoWindow-phone{
+  .infoWindow-phone {
     font-size: 14px;
     margin-top: 10px;
   }
-  .infoWindow-closeBtn{
-    position: absolute; right: 10px; top: 8px;
+  .infoWindow-closeBtn {
+    position: absolute;
+    right: 10px;
+    top: 8px;
     background: none;
     border: none;
     font-size: 15px;
@@ -42,10 +44,12 @@ export const MapLayout = styled.div`
     color: white;
     cursor: pointer;
   }
-  .infoWindow-closeBtn::before{
+  .infoWindow-closeBtn::before {
     display: block;
-    content: "";
-    position: absolute; left: 50%; top: 50%;
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
     margin-left: -12px;
     margin-top: -11px;
     width: 24px;
@@ -216,6 +220,7 @@ export const PlaceFoldBtn = styled.button`
 export const PlaceRank = styled.div`
   display: flex;
   box-sizing: border-box;
+  position: relative;
   min-height: 72px;
   margin-bottom: 8px;
   padding: 14px 20px;
@@ -248,16 +253,18 @@ export const PlaceRank = styled.div`
     overflow: hidden;
     display: flex;
     flex: 1;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
+    width: 180px;
     height: 44px;
     counter-reset: rank-number;
 
     > li {
       box-sizing: border-box;
       position: relative;
-      width: 180px;
-      height: 100%;
+      width: 100%;
+      height: 44px;
+      margin-bottom: 16px;
       padding: 0 8px 0 30px;
       border-left: 2px solid #f5f5f6;
       line-height: 1.33;
@@ -276,12 +283,42 @@ export const PlaceRank = styled.div`
         transform: translateY(-50%);
       }
 
-      > p {
+      > a {
+        display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         word-break: break-all;
         font-weight: 600;
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          color: #2b8ef9;
+        }
+      }
+
+      > span {
+        font-weight: 600;
+        font-size: 16px;
+        color: #f0b020;
+      }
+    }
+
+    &:hover {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      z-index: 10;
+      height: auto;
+      padding-top: 14px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+      transition: all 300ms;
+
+      > li {
+        border: 0;
       }
     }
   }
@@ -349,4 +386,28 @@ export const PlaceItemPhone = styled.span`
   display: block;
   margin-top: 14px;
   font-size: 13px;
+`;
+export const PlaceItemComment = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  color: #b8bfc4;
+
+  > span {
+    font-size: 16px;
+    color: #959ba1;
+  }
+`;
+
+export const PlaceItemRating = styled.span`
+  display: block;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #f0b020;
 `;

@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import * as S from './KakaoMap.styled';
 import { Link } from 'react-router-dom/dist';
 import { FaCaretRight } from 'react-icons/fa';
-import { FcRating, FcShop, FcCollaboration } from 'react-icons/fc';
+import { FcShop } from 'react-icons/fc';
+import { FaRegCommentDots } from 'react-icons/fa6';
 import { getCoord } from '../../api/map';
 import { useQuery } from 'react-query';
-import Slider from 'react-slick';
+import { getComments } from '../../api/comments';
 
 const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
   const [isFold, setIsFold] = useState(false);
@@ -19,7 +20,59 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
   const coordPlaces = CoordPlaces.data?.places;
   //   console.log('0. 카카오지도 로컬 axios 테스트 => ', CoordPlaces);
   //   console.log('1. 카카오지도 로컬 axios 테스트 => ', coord.region_3depth_name);
-  //   console.log('2. 카카오지도 로컬 axios 테스트 => ', coordPlaces);
+  console.log('coordPlaces리스트 => ', coordPlaces);
+
+  // coordPlaces 리스트(지역장소) - 필터 - 가게id 기준
+  // - data
+  // 평점 정보가 없습니다.
+  const { data: commentsData } = useQuery('comments', getComments);
+  console.log('댓글정보 => ', commentsData);
+
+  let rankComments = [];
+  CoordPlaces.data?.places.map((coordItem) => {
+    let id = coordItem.id;
+
+    commentsData?.forEach((commentItem) => {
+      if (commentItem.shopId !== id) return;
+
+      let isExist = false;
+      rankComments.forEach((item) => {
+        if (item.shopId !== id) return;
+
+        item.ratingDatas.push(commentItem.rating);
+        item.ratingSum += commentItem.rating;
+        item.rating = item.ratingSum / item.ratingDatas.length;
+
+        isExist = true;
+      });
+
+      if (!isExist) {
+        let newObj = {
+          shopId: id,
+          ratingDatas: [commentItem.rating],
+          ratingSum: commentItem.rating,
+          rating: commentItem.rating,
+          shopDatas: coordItem
+        };
+        rankComments.push(newObj);
+      }
+    });
+  });
+  rankComments.sort((a, b) => {
+    if (a.rating > b.rating) return -1;
+    if (a.rating < b.rating) return 1;
+    return 0;
+  });
+  rankComments.length = 5;
+  console.log('내가만든!! sort!! => ', rankComments);
+
+  const filteredTest = CoordPlaces.data?.places.filter((coordItem) => {
+    commentsData?.forEach((comment) => {
+      if (coordItem.id === undefined || coordItem.id != comment.shopId) return false;
+    });
+    return true;
+  });
+  console.log('필터링 테스트 => ', filteredTest);
 
   return (
     <S.PlacesBox className={isFold == true ? 'isFold' : null}>
@@ -41,36 +94,24 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
           </i>
         </strong>
         <ol>
-          <li>
-            <p>피트니스킹콩</p>
-            <span>
-              <span>⭐⭐⭐⭐⭐ 7.5</span>
-            </span>
-          </li>
-          <li>
-            <p>스타앤팀에이스 퍼스널트레이닝</p>
-            <span>
-              <span>⭐⭐⭐⭐⭐ 7.0</span>
-            </span>
-          </li>
-          <li>
-            <p>스타333앤팀에이스 퍼스널트레이닝</p>
-            <span>
-              <span>⭐⭐⭐⭐⭐ 7.0</span>
-            </span>
-          </li>
-          <li>
-            <p>스타444앤팀에이스 퍼스널트레이닝</p>
-            <span>
-              <span>⭐⭐⭐⭐⭐ 7.0</span>
-            </span>
-          </li>
-          <li>
-            <p>스타555앤팀에이스 퍼스널트레이닝</p>
-            <span>
-              <span>⭐⭐⭐⭐⭐ 7.0</span>
-            </span>
-          </li>
+          {!rankComments[0] ? (
+            <li class>평점 정보가 없습니다</li>
+          ) : (
+            rankComments?.map((place) => {
+              return (
+                <li>
+                  <Link title={place.shopDatas.place_name} to={`/${place.shopId}`} state={{ test1: place.shopDatas }}>
+                    {place.shopDatas.place_name}
+                  </Link>
+                  <span>
+                    <span>
+                      {'⭐'.repeat(place.rating)} {place.rating}
+                    </span>
+                  </span>
+                </li>
+              );
+            })
+          )}
         </ol>
       </S.PlaceRank>
       <S.PlaceList>
@@ -89,6 +130,24 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
               ) : null}
               <S.PlaceItemAddress>(지번) {place.address_name}</S.PlaceItemAddress>
               <S.PlaceItemPhone>{place.phone}</S.PlaceItemPhone>
+              {commentsData?.filter((item) => item.shopId === place.id).map((item) => item.rating).length ? (
+                <>
+                  <S.PlaceItemRating>
+                    ⭐
+                    {commentsData
+                      ?.filter((item) => item.shopId === place.id)
+                      .map((item) => item.rating)
+                      .reduce((acc, cur) => acc + cur, 0) /
+                      commentsData?.filter((item) => item.shopId === place.id).map((item) => item.rating).length}
+                  </S.PlaceItemRating>
+                  <S.PlaceItemComment>
+                    <FaRegCommentDots />
+                    <span>
+                      {commentsData?.filter((item) => item.shopId === place.id).map((item) => item.rating).length}
+                    </span>
+                  </S.PlaceItemComment>
+                </>
+              ) : null}
             </li>
           );
         })}
