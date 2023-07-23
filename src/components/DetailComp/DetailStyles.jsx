@@ -25,7 +25,7 @@ export const StPriceInput = styled.input`
 
 export const StDetailPage = styled.div`
   margin: 100px auto 0px;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   width: 100%;
   height: 100vh;
   display: flex;

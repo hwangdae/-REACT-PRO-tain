@@ -183,6 +183,8 @@ const DetailBox = ({ placeData }) => {
     mutation.mutate(newComment);
     setComment('');
     setRating(0);
+    setSelected('');
+    setPrice('');
   };
 
   const deleteCommentHandler = (id) => {
