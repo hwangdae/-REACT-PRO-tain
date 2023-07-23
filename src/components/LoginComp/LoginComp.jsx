@@ -41,6 +41,7 @@ const LoginComp = () => {
         const token = await user.getIdToken();
         sessionStorage.setItem('token', token);
         //추후에 window.location.reload 말고 Main page로 바로 가도록 고쳐야 함.
+        //2023-07-23 방법을 모르겠음.....
         navigate("/")     
         window.location.reload()
 
