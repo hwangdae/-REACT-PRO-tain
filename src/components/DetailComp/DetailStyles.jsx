@@ -1,4 +1,4 @@
-import { css, styled } from "styled-components";
+import { css, styled } from 'styled-components';
 
 export const CommentInput = styled.input`
   background: transparent;
@@ -17,7 +17,7 @@ export const StPriceInput = styled.input`
   border: 1px solid black;
   border-radius: 20px;
   margin-left: 20px;
-  width: 180px;
+  width: 80px;
   height: 20px;
   padding: 10px;
   color: black;
@@ -34,7 +34,7 @@ export const StDetailPage = styled.div`
 `;
 
 export const StDetailBox = styled.div`
-  display: ${(props) => (props.display ? props.display : "flex")};
+  display: ${(props) => (props.display ? props.display : 'flex')};
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -65,7 +65,7 @@ export const StDetailTitle = styled.div`
   background-color: #ff6e6e;
   border-radius: 30px;
   margin-top: 2rem;
-`
+`;
 
 export const StReviewCountBox = styled.div`
   display: flex;
@@ -74,7 +74,7 @@ export const StReviewCountBox = styled.div`
 `;
 
 export const StReviewInfo = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
@@ -85,10 +85,10 @@ export const StReviewInfo = styled.div`
   border-radius: 10px;
   padding: 10px;
   margin: 0 1rem;
-`
+`;
 
 export const StReviewInfo2 = styled.div`
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   gap: 10px;
@@ -96,7 +96,7 @@ export const StReviewInfo2 = styled.div`
   font-weight: bold;
   border-radius: 10px;
   padding: 10px;
-`
+`;
 
 export const StarButton = styled.button`
   font-size: 20px;
@@ -116,24 +116,24 @@ export const StCommentBox = styled.div`
   padding: 20px 10px;
   width: 80%;
   position: relative;
-  margin : 3px auto;
+  margin: 3px auto;
   gap: 1rem;
 `;
 
-export const StCommentHeader  = styled.div`
+export const StCommentHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-`
+`;
 
-export const StCommentBtnCtn  = styled.div`
+export const StCommentBtnCtn = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
-`
+`;
 
 export const StCommentButtons = styled.div`
-  margin : 0px 5px;
+  margin: 0px 5px;
   gap: 5px;
   cursor: pointer;
   &:hover {
@@ -144,8 +144,6 @@ export const StCommentButtons = styled.div`
 export const StCommentContent = styled.div`
   margin-bottom: 10px;
 `;
-
-
 
 export const StBtnWrap = styled.div`
   position: absolute;
@@ -161,14 +159,14 @@ export const StCommentDetails = styled.div`
 `;
 
 export const StDropdownCtn = styled.div`
- display: flex;
- flex-direction: row;
- align-items: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const StDropdown = styled.div`
   user-select: none;
-  width: 300px;
+  width: 180px;
   margin: 20px;
   position: relative;
 `;
@@ -233,8 +231,8 @@ export const StModalCtn = styled.div`
   margin-top: 1rem;
   background-color: white;
   padding: 20px;
-  width: 40%;
-  height: 30%;
+  width: 60%;
+  height: 20%;
   border-radius: 12px;
   z-index: 2;
   animation: dropTop 0.4s linear;
@@ -248,18 +246,18 @@ export const StModalCtn = styled.div`
       opacity: 1;
     }
   }
-`
+`;
 export const StCloseModalBtn = styled.button`
   background-color: White;
   border: 1px solid black;
   border-radius: 50%;
   transform: scale(1.2);
-  margin-left: 700px;
-`
+  margin-left: 300px;
+`;
 
 export const StUpdateModalCtn = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
-`
+`;
