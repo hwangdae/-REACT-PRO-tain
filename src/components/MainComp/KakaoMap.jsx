@@ -160,9 +160,19 @@ const KakaoMap = () => {
         // 마커와 검색결과 항목에 mouseover 했을때
         // 해당 장소에 인포윈도우에 장소명을 표시합니다
         // mouseout 했을 때는 인포윈도우를 닫습니다
-        ((marker, title, address, phone, categoryName, road_address_name,place_url, placeId, place) => {
+        ((marker, title, address, phone, categoryName, road_address_name, placeId, place) => {
           kakao.maps.event.addListener(marker, 'click', function () {
-            displayInfowindow(marker, title, address, phone, categoryName, road_address_name,place_url, placeId, place);
+            displayInfowindow(
+              marker,
+              title,
+              address,
+              phone,
+              categoryName,
+              road_address_name,
+              // place_url,
+              placeId,
+              place
+            );
           });
         })(
           marker,
@@ -171,7 +181,7 @@ const KakaoMap = () => {
           places[i].phone,
           places[i].category_name,
           places[i].road_address_name,
-          places[i].place_url,
+          // places[i].place_url,
           places[i].id,
           places[i]
         );
@@ -245,12 +255,11 @@ const KakaoMap = () => {
       let detailBtn = document.createElement('button');
       detailBtn.innerHTML = '상세보기';
       detailBtn.onclick = function () {
-        navigate(`/${placeId}`, { state: { test1: place } });  
-       
+        navigate(`/${placeId}`, { state: { test1: place } });
       };
 
-      detailBtn.style.marginTop = '15px'
-      detailBtn.style.width= '100%'
+      detailBtn.style.marginTop = '15px';
+      detailBtn.style.width = '100%';
       detailBtn.style.backgroundColor = '#f25320';
       detailBtn.style.color = 'white';
       detailBtn.style.padding = '10px';
@@ -258,12 +267,12 @@ const KakaoMap = () => {
       detailBtn.style.cursor = 'pointer';
       content.appendChild(detailBtn);
 
-      const closeBtn = content.querySelector('.infoWindow-closeBtn')
-      console.log(closeBtn)
+      const closeBtn = content.querySelector('.infoWindow-closeBtn');
+      console.log(closeBtn);
 
-      closeBtn.addEventListener('click',closeInfoWindow)
+      closeBtn.addEventListener('click', closeInfoWindow);
 
-      function closeInfoWindow(){
+      function closeInfoWindow() {
         infowindow.close();
         currentInfowindow = null;
       }

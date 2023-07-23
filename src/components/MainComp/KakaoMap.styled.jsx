@@ -183,6 +183,42 @@ export const ControlsCategory = styled.div`
   }
 `;
 
+// 행정동 표시
+export const CoordBox = styled.ol`
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  z-index: 20;
+  height: 40px;
+  padding: 10px 16px 10px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  background: #fff;
+  color: #212529;
+  transform: translateX(-50%);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2), 5px 0 15px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+
+  > li {
+    display: flex;
+    align-items: center;
+
+    i {
+      margin: 0 7px;
+      color: #b8bfc4;
+      opacity: 0.6;
+    }
+    &:first-child i {
+      font-size: 16px;
+      color: inherit;
+      opacity: 1;
+    }
+  }
+`;
+
 // 장소 결과
 export const PlacesBox = styled.div`
   display: flex;
