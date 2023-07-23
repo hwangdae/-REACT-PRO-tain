@@ -27,7 +27,8 @@ import {
   StCloseModalBtn,
   StDetailTitle,
   StReviewInfo,
-  StReviewInfo2
+  StReviewInfo2,
+  StPriceInput
 } from './DetailStyles';
 
 const DetailBox = ({ placeData }) => {
@@ -322,7 +323,12 @@ const DetailBox = ({ placeData }) => {
                 )}
               </StDropdownBtn>
             </StDropdown>
-            <input type="text" value={price} onChange={(event) => handleChange(event)} placeholder="ex) ₩ 3,00,000 " />
+            <StPriceInput
+              type="text"
+              value={price}
+              onChange={(event) => handleChange(event)}
+              placeholder="ex) ₩ 3,00,000 "
+            />
           </StDropdownCtn>
 
           <CommentInput
