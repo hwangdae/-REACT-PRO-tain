@@ -71,7 +71,6 @@ const DetailBox = ({ placeData }) => {
 
   const { data: userData } = useQuery('users', getUsers, {
     onSuccess: (userData) => {
-      console.log('Fetched userData:', userData);
     }
   });
   const shopId = params.id;
