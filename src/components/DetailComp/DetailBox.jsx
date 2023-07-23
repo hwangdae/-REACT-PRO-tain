@@ -7,30 +7,24 @@ import DetailUpdate from './DetailUpdate';
 import { VscTriangleDown } from 'react-icons/vsc';
 import { MdOutlineMapsHomeWork, MdOutlinePhonelinkRing } from 'react-icons/md';
 import { getUsers } from '../../api/users';
+import DetailInput from './DetailInput';
 import {
-  CommentInput,
   StDetailPage,
   StDetailBox,
   StReviewCountBox,
-  StarButton,
   StCommentBox,
   StCommentHeader,
   StCommentBtnCtn,
   StCommentButtons,
-  StDropdownCtn,
-  StDropdown,
-  StDropdownBtn,
-  StDropdownContent,
-  StDropdownItem,
   StModalBox,
   StModalCtn,
   StCloseModalBtn,
   StDetailTitle,
   StReviewInfo,
   StReviewInfo2,
-  StPriceInput,
   StModalBtnCtn,
-  StReviewInfoModal
+  StReviewInfoModal,
+  StReviewInfoWtModal
 } from './DetailStyles';
 
 const DetailBox = ({ placeData }) => {
@@ -46,6 +40,22 @@ const DetailBox = ({ placeData }) => {
   };
   const closeModal = () => {
     setIsOpen(false);
+  };
+
+  const [isNewReviewModalOpen, setIsNewReviewModalOpen] = useState(false);
+
+  // Function to open the new review modal
+  const openNewReviewModal = () => {
+    setIsNewReviewModalOpen(true);
+  };
+
+  // Function to close the new review modal
+  const closeNewReviewModal = () => {
+    setIsNewReviewModalOpen(false);
+  };
+
+  const handleReviewButtonClick = () => {
+    openNewReviewModal();
   };
 
   const [authLoading, setAuthLoading] = useState(true);
@@ -188,6 +198,7 @@ const DetailBox = ({ placeData }) => {
     setRating(0);
     setSelected('');
     setPrice('');
+    closeNewReviewModal();
   };
 
   const deleteCommentHandler = (id) => {
@@ -288,61 +299,34 @@ const DetailBox = ({ placeData }) => {
             })}
         </StDetailBox>
         <StDetailBox size="placeDetail">
-          <StReviewInfo>리뷰를 남겨보세요</StReviewInfo>
-          <br />
-          <div>
-            <StarButton active={rating >= 1} onClick={() => handleRatingSelection(1)}>
-              ★
-            </StarButton>
-            <StarButton active={rating >= 2} onClick={() => handleRatingSelection(2)}>
-              ★
-            </StarButton>
-            <StarButton active={rating >= 3} onClick={() => handleRatingSelection(3)}>
-              ★
-            </StarButton>
-            <StarButton active={rating >= 4} onClick={() => handleRatingSelection(4)}>
-              ★
-            </StarButton>
-            <StarButton active={rating >= 5} onClick={() => handleRatingSelection(5)}>
-              ★
-            </StarButton>
-          </div>
-          <StDropdownCtn>
-            <StDropdown>
-              <StDropdownBtn onClick={showDropdown}>
-                {selected || '가격정보를 입력해주세요!!'}
-                <VscTriangleDown />
-                {isActive && (
-                  <StDropdownContent>
-                    {options.map((option) => (
-                      <StDropdownItem
-                        onClick={(event) => {
-                          setSelected(option);
-                          setIsActive(false);
-                        }}
-                      >
-                        {option}
-                      </StDropdownItem>
-                    ))}
-                  </StDropdownContent>
-                )}
-              </StDropdownBtn>
-            </StDropdown>
-            <StPriceInput
-              type="text"
-              value={price}
-              onChange={(event) => handleChange(event)}
-              placeholder="ex) ₩ 3,00,000 "
-            />
-          </StDropdownCtn>
-
-          <CommentInput
-            type="text"
-            value={comment}
-            onChange={(event) => commentHandler(event)}
-            placeholder="내용을 입력하세요."
-          />
-          <button onClick={addCommentHandler}>등록</button>
+          <StReviewInfo onClick={handleReviewButtonClick} style={{ width: '460px', cursor: 'pointer' }}>
+            리뷰를 남겨보세요
+          </StReviewInfo>
+          {isNewReviewModalOpen && (
+            <StModalBox onClick={closeNewReviewModal}>
+              <StModalCtn onClick={(event) => event.stopPropagation()}>
+                <StModalBtnCtn>
+                  <StReviewInfoWtModal>리뷰를 작성해주세요!!</StReviewInfoWtModal>
+                  <StCloseModalBtn onClick={closeNewReviewModal}>X</StCloseModalBtn>
+                </StModalBtnCtn>
+                <DetailInput
+                  rating={rating}
+                  handleRatingSelection={handleRatingSelection}
+                  selected={selected}
+                  showDropdown={showDropdown}
+                  isActive={isActive}
+                  options={options}
+                  setSelected={setSelected}
+                  setIsActive={setIsActive}
+                  price={price}
+                  handleChange={handleChange}
+                  comment={comment}
+                  commentHandler={commentHandler}
+                  addCommentHandler={addCommentHandler}
+                />
+              </StModalCtn>
+            </StModalBox>
+          )}
         </StDetailBox>
       </StDetailPage>
     </>
