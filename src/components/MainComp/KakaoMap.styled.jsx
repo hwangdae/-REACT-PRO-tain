@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const MapLayout = styled.div`
   overflow: hidden;
   position: absolute;
-  top: 5rem;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -11,30 +11,32 @@ export const MapLayout = styled.div`
   .infoWindow-wrap {
     width: 320px;
   }
-  .infoWindow-inner{
-    padding : 15px 10px 0px 10px;
+  .infoWindow-inner {
+    padding: 15px 10px 0px 10px;
   }
-  .infoWindow-title{
+  .infoWindow-title {
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 15px;
   }
-  .infoWindow-category{
-    font-size:12px;
+  .infoWindow-category {
+    font-size: 12px;
     color: #a3aab0;
     font-weight: bold;
     margin-bottom: 8px;
   }
-  .infoWindow-address{
+  .infoWindow-address {
     font-size: 14px;
     margin-bottom: 2px;
   }
-  .infoWindow-phone{
+  .infoWindow-phone {
     font-size: 14px;
     margin-top: 10px;
   }
-  .infoWindow-closeBtn{
-    position: absolute; right: 10px; top: 8px;
+  .infoWindow-closeBtn {
+    position: absolute;
+    right: 10px;
+    top: 8px;
     background: none;
     border: none;
     font-size: 15px;
@@ -42,10 +44,12 @@ export const MapLayout = styled.div`
     color: white;
     cursor: pointer;
   }
-  .infoWindow-closeBtn::before{
+  .infoWindow-closeBtn::before {
     display: block;
-    content: "";
-    position: absolute; left: 50%; top: 50%;
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
     margin-left: -12px;
     margin-top: -11px;
     width: 24px;
@@ -84,6 +88,17 @@ export const ControlsHeader = styled.div`
     font-size: 26px;
     text-decoration: none;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }
+
+  button {
+    min-width: 70px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 15px;
+    background: transparent;
     color: #fff;
   }
 `;
@@ -179,6 +194,42 @@ export const ControlsCategory = styled.div`
   }
 `;
 
+// 행정동 표시
+export const CoordBox = styled.ol`
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  z-index: 20;
+  height: 40px;
+  padding: 10px 16px 10px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  background: #fff;
+  color: #212529;
+  transform: translateX(-50%);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2), 5px 0 15px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+
+  > li {
+    display: flex;
+    align-items: center;
+
+    i {
+      margin: 0 7px;
+      color: #b8bfc4;
+      opacity: 0.6;
+    }
+    &:first-child i {
+      font-size: 16px;
+      color: inherit;
+      opacity: 1;
+    }
+  }
+`;
+
 // 장소 결과
 export const PlacesBox = styled.div`
   display: flex;
@@ -216,6 +267,7 @@ export const PlaceFoldBtn = styled.button`
 export const PlaceRank = styled.div`
   display: flex;
   box-sizing: border-box;
+  position: relative;
   min-height: 72px;
   margin-bottom: 8px;
   padding: 14px 20px;
@@ -248,16 +300,18 @@ export const PlaceRank = styled.div`
     overflow: hidden;
     display: flex;
     flex: 1;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
+    width: 180px;
     height: 44px;
     counter-reset: rank-number;
 
     > li {
       box-sizing: border-box;
       position: relative;
-      width: 180px;
-      height: 100%;
+      width: 100%;
+      height: 44px;
+      margin-bottom: 16px;
       padding: 0 8px 0 30px;
       border-left: 2px solid #f5f5f6;
       line-height: 1.33;
@@ -276,12 +330,42 @@ export const PlaceRank = styled.div`
         transform: translateY(-50%);
       }
 
-      > p {
+      > a {
+        display: block;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         word-break: break-all;
         font-weight: 600;
+        text-decoration: none;
+        color: inherit;
+
+        &:hover {
+          color: #2b8ef9;
+        }
+      }
+
+      > span {
+        font-weight: 600;
+        font-size: 16px;
+        color: #f0b020;
+      }
+    }
+
+    &:hover {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      z-index: 10;
+      height: auto;
+      padding-top: 14px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+      transition: all 300ms;
+
+      > li {
+        border: 0;
       }
     }
   }
@@ -349,4 +433,28 @@ export const PlaceItemPhone = styled.span`
   display: block;
   margin-top: 14px;
   font-size: 13px;
+`;
+export const PlaceItemComment = styled.span`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  color: #b8bfc4;
+
+  > span {
+    font-size: 16px;
+    color: #959ba1;
+  }
+`;
+
+export const PlaceItemRating = styled.span`
+  display: block;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #f0b020;
 `;

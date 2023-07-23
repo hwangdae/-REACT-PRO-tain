@@ -25,14 +25,16 @@ const Header = () => {
     await signOut(auth);
     sessionStorage.removeItem('token');
     setIsLoggedIn(false);
-    navigate("/")
-    window.location.reload()
+    navigate('/');
+    window.location.reload();
   };
 
   return (
     <StHeader>
       <StMenuCtn gap="0px">
-        <StMenuSpan borderright="3px solid white" onClick={() => navigate('/')}>💪REACT PROtein</StMenuSpan>
+        <StMenuSpan borderright="3px solid white" onClick={() => navigate('/')}>
+          💪REACT PROtein
+        </StMenuSpan>
       </StMenuCtn>
       <StMenuCtn gap="0px">
         {isLoggedIn === true ? (
@@ -56,29 +58,28 @@ const Header = () => {
 
 export default Header;
 
-const StHeader = styled.header`
-    background-color: #f25320;
-    width: 100;
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    color: white;
-    font-weight: bold;
-  `;
+const StHeader = styled.div`
+  background-color: #f25320;
+  width: 100;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  font-weight: bold;
+`;
 const StMenuCtn = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: ${(props) => props.gap};
-    margin: 0px 30px;
-  `;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: ${(props) => props.gap};
+  margin: 0px 30px;
+`;
 const StMenuSpan = styled.span`
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0px 20px;
-    border-left: 3px solid white;
-    border-right: ${(props) => (props.borderright ? props.borderright : 'none')};
-    height: 100%;
-    
-  `
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0px 20px;
+  border-left: 3px solid white;
+  border-right: ${(props) => (props.borderright ? props.borderright : 'none')};
+  height: 100%;
+`;

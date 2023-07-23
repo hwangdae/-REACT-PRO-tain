@@ -21,21 +21,23 @@ const Router = () => {
       setIsLoggedIn(false);
     }
     setIsCheckingLogin(false);
+    setIsCheckingLogin(false);
   }, [isLoggedIn]);
   if (isCheckingLogin) {
+    return <div>페이지 로딩중입니다..!</div>;
     return <div>페이지 로딩중입니다..!</div>;
   }
 
   return (
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Main />} />
+      <Routes>
+        <Route exact path="/" element={<Main />} />
+        <Route element={<Layout />}>
           <Route path="/:id" element={isLoggedIn ? <Details /> : <Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-        </Routes>
-      </Layout>
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };

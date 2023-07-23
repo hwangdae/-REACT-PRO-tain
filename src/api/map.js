@@ -24,8 +24,6 @@ const getSearch = async (CoordResponse, selectedCategoryName) => {
  * @returns
  */
 const getCoord = async (coordX, coordY, selectedCategoryName) => {
-  console.log('api/map.js파일의 getCoord 파라미터 확인 => ', coordX, coordY);
-
   const CoordResponse = await axios.get(
     `${process.env.REACT_APP_KAKAO_MAP_LOCAL_URL}/geo/coord2regioncode.json?x=${coordX}&y=${coordY}`,
     {

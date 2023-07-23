@@ -1,15 +1,18 @@
-import React from "react";
-import Header from "../components/Header/Header";
-import { styled } from "styled-components";
+import React from 'react';
+import Header from '../components/Header/Header';
+import { styled } from 'styled-components';
+import { Outlet } from 'react-router-dom';
 
-const Layout = ({ children }) => {
+const Layout = () => {
   return (
     <>
       <StHeader>
         <Header />
-      </StHeader>    
+      </StHeader>
       <StLayout>
-        <div>{children}</div>
+        <div>
+          <Outlet />
+        </div>
       </StLayout>
     </>
   );
