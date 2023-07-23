@@ -30,7 +30,6 @@ const DetailUpdate = ({ item, placeData }) => {
   const [rating, setRating] = useState(item.rating);
 
   const currentPlace = placeData.category_name.split('>').pop().trim();
-  console.log('currentPlace=>', currentPlace);
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState(item.selected);
   const showDropdown = () => {

@@ -31,7 +31,7 @@ const RegisterComp = () => {
   const mutation = useMutation(addUsers, {
     onSuccess: () => {
       queryClient.invalidateQueries('users');
-      console.log('신규 회원 가입 & 데이터 최신화 성공!!!');
+      // console.log('신규 회원 가입 & 데이터 최신화 성공!!!');
     },
     onError: () => {
       alert('죄송합니다. 현재 서버가 불안정한 상태입니다. 최대한 빠르게 복구하겠습니다.');
@@ -48,7 +48,7 @@ const RegisterComp = () => {
   // db.json에서 users collection Get
   const { data, isLoading, isError } = useQuery('users', getUsers);
   if (isLoading) {
-    console.log('loading중');
+    console.log('users 컬렉션 loading중');
   }
   if (isError) {
     alert('닉네임 중복검사 데이터get 에러');

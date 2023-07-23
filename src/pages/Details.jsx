@@ -7,9 +7,7 @@ function Details() {
   const placeData = location.state?.test1;
 
   return (
-    <>
       <DetailBox placeData={placeData} />
-    </>
   );
 }
 

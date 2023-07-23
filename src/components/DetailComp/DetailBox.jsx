@@ -65,7 +65,6 @@ const DetailBox = ({ placeData }) => {
 
   const { data } = useQuery('comments', getComments, {
     onSuccess: (data) => {
-      console.log('Fetched data:', data);
       setDisplayedComments(data.filter((comment) => comment.shopId === shopId));
     }
   });
@@ -85,7 +84,6 @@ const DetailBox = ({ placeData }) => {
 
   //가격정보 select창 관련
   const currentPlace = placeData.category_name.split('>').pop().trim();
-  console.log('currentPlace=>', currentPlace);
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState('');
   const showDropdown = () => {
@@ -163,7 +161,6 @@ const DetailBox = ({ placeData }) => {
   const commentRatingLength = commentRatingArr?.length;
   // 총 별점 평균
   const RatingAvg = (commentRatingSum / commentRatingLength).toFixed(2);
-  console.log(RatingAvg);
 
   const queryClient = useQueryClient();
 

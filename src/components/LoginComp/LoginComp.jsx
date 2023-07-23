@@ -31,7 +31,6 @@ const LoginComp = () => {
     const [emailValidation] = data?.filter((item) => item.email == email);
     const pwValidation = emailValidation?.pw == pw ? true : false;
     if (emailValidation == [] || pwValidation == false) {
-      console.log(pwValidation);
       alert('이메일 혹은 비밀번호를 잘못 입력하셨거나 등록되지 않은 이메일입니다.');
       return false;
     } else {
