@@ -7,6 +7,7 @@ import Details from '../pages/Details';
 import Layout from './Layout';
 import { auth } from '../firebase';
 import GlobalStyle from '../style/GlobalStyle';
+import Header from '../components/Header/Header';
 
 export const logInUser = auth;
 
@@ -30,14 +31,14 @@ const Router = () => {
 
   return (
     <BrowserRouter>
-      <Layout>
+      {/* <Layout> */}
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/:id" element={isLoggedIn ? <Details /> : <Navigate to = "/login"/>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
-      </Layout>
+      {/* </Layout> */}
     </BrowserRouter>
   );
 };

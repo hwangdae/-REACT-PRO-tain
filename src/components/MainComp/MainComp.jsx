@@ -26,7 +26,7 @@ const MainComp = () => {
   return (
     <>
       <KakaoMap/>
-      <button onClick={(event) => HandleLogOut(event)}>로그아웃</button>
+      {/* <button onClick={(event) => HandleLogOut(event)}>로그아웃</button> */}
     </>
   );
 };

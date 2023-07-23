@@ -3,7 +3,9 @@ import styled from 'styled-components';
 export const MapLayout = styled.div`
   overflow: hidden;
   position: absolute;
+
   top: 5rem;
+
   left: 0;
   width: 100%;
   height: 100%;

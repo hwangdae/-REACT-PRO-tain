@@ -5,21 +5,36 @@ import { getComments, addComment, deleteComment, updateComment } from '../../api
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { auth } from '../../firebase';
+
+import { GiPositionMarker } from 'react-icons/gi';
+
 import DetailUpdate from './DetailUpdate';
+
 import { VscTriangleDown } from 'react-icons/vsc';
 import { MdOutlineMapsHomeWork, MdOutlinePhonelinkRing } from 'react-icons/md';
 import { getUsers } from '../../api/users';
 import {
   CommentInput,
   StDetailPage,
+  StDetailInner,
+  StDetailInfoWrap,
+  StDetailBackImg,
+  StDetailInfo,
   StDetailBox,
+  StDetailBoxInner,
   StReviewCountBox,
+  StDetailBoxReview,
+  StDetailBoxReviewInner,
   StarButton,
+  CommentWrap,
+  StDetailUserReview,
+  StDetailUserReviewInner,
   StCommentBox,
   StCommentHeader,
   StCommentBtnCtn,
   StCommentButtons,
   StDropdownCtn,
+  StDropdownCtnInner,
   StDropdown,
   StDropdownBtn,
   StDropdownContent,
@@ -40,12 +55,29 @@ const DetailBox = ({ placeData }) => {
   const [rating, setRating] = useState(0);
   const [displayedComments, setDisplayedComments] = useState([]);
 
+
+  // Define state variables for edit mode
+  const [editMode, setEditMode] = useState(false);
+  const [editCommentId, setEditCommentId] = useState(null);
+  const [editComment, setEditComment] = useState('');
+  const [editRating, setEditRating] = useState(0);
+
+  console.log('placedata', placeData);
+
+  // Function to toggle edit mode
+  const toggleEditMode = (commentId, comment, rating) => {
+    setEditMode(!editMode);
+    setEditCommentId(commentId);
+    setEditComment(comment);
+    setEditRating(rating);
+
   const [isOpen, setIsOpen] = useState(false);
   const openModal = () => {
     setIsOpen(true);
   };
   const closeModal = () => {
     setIsOpen(false);
+
   };
 
   const { data } = useQuery('comments', getComments, {
@@ -131,7 +163,11 @@ const DetailBox = ({ placeData }) => {
     const numericValue = value.replace(/[^\d]/g, '');
     // 콤마 추가한 문자열 생성
     const formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+    return formattedValue ? formattedValue + '₩' : '';
+
     return formattedValue;
+
   };
   const handleChange = (event) => {
     // 1000단위마다 콤마를 추가하여 설정
@@ -212,6 +248,90 @@ const DetailBox = ({ placeData }) => {
   };
   return (
     <>
+
+      <StDetailPage>
+        <StDetailInner>
+          <StDetailInfoWrap>
+            <StDetailBackImg></StDetailBackImg>
+            <StDetailInfo>
+              <div style={{ fontSize: '40px', fontWeight: 'bold', marginBottom: '20px' }}>{placeData?.place_name}</div>
+              <StReviewCountBox>
+                <div>별점: {isNaN(RatingAvg) ? 0 : RatingAvg}</div>
+                <div>방문자 리뷰: {commentRatingLength}</div>
+              </StReviewCountBox>
+            </StDetailInfo>
+
+            <StDetailBox>
+              <StDetailBoxInner>
+                <h1>상세 정보</h1>
+                <p>
+                  <GiPositionMarker /> {placeData?.road_address_name}
+                </p>
+                <p>(지번) {placeData?.address_name}</p>
+                <p>{placeData?.phone ? placeData?.phone : '사장님 전화번호 넣어주세요!!'}</p>
+              </StDetailBoxInner>
+            </StDetailBox>
+          </StDetailInfoWrap>
+
+          <StDetailBoxReview size="placeDetail">
+            <StDetailBoxReviewInner>
+              <h1>리뷰 남기기</h1>
+              <div>
+                <h2>별점</h2>
+                <StarButton active={rating >= 1} onClick={() => handleRatingSelection(1)}>
+                  ★
+                </StarButton>
+                <StarButton active={rating >= 2} onClick={() => handleRatingSelection(2)}>
+                  ★
+                </StarButton>
+                <StarButton active={rating >= 3} onClick={() => handleRatingSelection(3)}>
+                  ★
+                </StarButton>
+                <StarButton active={rating >= 4} onClick={() => handleRatingSelection(4)}>
+                  ★
+                </StarButton>
+                <StarButton active={rating >= 5} onClick={() => handleRatingSelection(5)}>
+                  ★
+                </StarButton>
+              </div>
+              <StDropdownCtn>
+                <h2>가격 정보 공유</h2>
+                <StDropdownCtnInner>
+                  <StDropdown>
+                    <StDropdownBtn onClick={showDropdown}>
+                      {selected || '가격정보를 입력해주세요!!'}
+                      <VscTriangleDown />
+                      {isActive && (
+                        <StDropdownContent>
+                          {options.map((option) => (
+                            <StDropdownItem
+                              onClick={(event) => {
+                                setSelected(option);
+                                setIsActive(false);
+                              }}
+                            >
+                              {option}
+                            </StDropdownItem>
+                          ))}
+                        </StDropdownContent>
+                      )}
+                    </StDropdownBtn>
+                  </StDropdown>
+                  <input type="text" value={price} onChange={handleChange} placeholder="ex) 3,00,000 ₩" />
+                </StDropdownCtnInner>
+              </StDropdownCtn>
+              <CommentWrap>
+                <h2>리뷰</h2>
+                <CommentInput
+                  type="text"
+                  value={comment}
+                  onChange={(event) => commentHandler(event)}
+                  placeholder="내용을 입력하세요."
+                />
+                <button onClick={addCommentHandler}>등록</button>
+              </CommentWrap>
+            </StDetailBoxReviewInner>
+          </StDetailBoxReview>
       <StDetailPage style={{ marginTop: '100px' }}>
         <StDetailBox size="placeTitle">
           <StDetailTitle>{placeData?.place_name}</StDetailTitle>
@@ -319,14 +439,47 @@ const DetailBox = ({ placeData }) => {
             <input type="text" value={price} onChange={(event) => handleChange(event)} placeholder="ex) 3,00,000 ₩" />
           </StDropdownCtn>
 
-          <CommentInput
-            type="text"
-            value={comment}
-            onChange={(event) => commentHandler(event)}
-            placeholder="내용을 입력하세요."
-          />
-          <button onClick={addCommentHandler}>등록</button>
-        </StDetailBox>
+          <StDetailUserReview>
+            <StDetailUserReviewInner>
+              <h1>전체 리뷰</h1>
+            {data
+              ?.filter((comment) => comment.shopId === shopId)
+              .map((comment) => {
+                const formattedDate = formatDate(comment.createdAt);
+                const isEditing = editMode && editCommentId === comment.id;
+                return (
+                  <StCommentBox key={comment.id}>
+                    <StCommentHeader>
+                      <StCommentDetails>
+                        {/* Comment details (username, rating, date) */}
+                        <strong>{getUserName(comment.userId)}</strong> | 별점 {comment.rating.toFixed(1)} |{' '}
+                        {formattedDate !== 'Invalid Date' ? formattedDate : 'No Date'}
+                      </StCommentDetails>
+                      <StBtnWrap>
+                        {isEditing ? ( // Show "완료" (Done) button in edit mode
+                          <StCommentButtons onClick={() => updateCommentHandler(comment.id)}>완료</StCommentButtons>
+                        ) : (
+                          // Show "수정" (Edit) button in non-edit mode
+                          <StCommentButtons onClick={() => toggleEditMode(comment.id, comment.comment, comment.rating)}>
+                            수정
+                          </StCommentButtons>
+                        )}
+                        <StCommentButtons
+                          onClick={() => {
+                            deleteCommentHandler(comment.id);
+                          }}
+                        >
+                          삭제
+                        </StCommentButtons>
+                      </StBtnWrap>
+                    </StCommentHeader>
+                    <StCommentContent>{isEditing ? null : comment.comment}</StCommentContent>
+                  </StCommentBox>
+                );
+              })}
+              </StDetailUserReviewInner>
+          </StDetailUserReview>
+        </StDetailInner>
       </StDetailPage>
     </>
   );

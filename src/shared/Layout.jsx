@@ -5,12 +5,12 @@ import { styled } from "styled-components";
 const Layout = ({ children }) => {
   return (
     <>
-      <StHeader>
+      {/* <StHeader>
         <Header />
-      </StHeader>    
-      <StLayout>
+      </StHeader>     */}
+      {/* <StLayout> */}
         <div>{children}</div>
-      </StLayout>
+      {/* </StLayout> */}
     </>
   );
 };
@@ -24,7 +24,7 @@ const StHeader = styled.header`
 `;
 
 const StLayout = styled.div`
-  max-width: 1400px;
+  max-width: 800px;
   min-width: 800px;
-  margin: 2px auto;
+  margin: 0px auto;
 `;

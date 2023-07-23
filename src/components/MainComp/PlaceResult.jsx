@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as S from './KakaoMap.styled';
 import { Link } from 'react-router-dom/dist';
 import { FaCaretRight } from 'react-icons/fa';
+import LoginHeader from '../Header/LoginHeader';
 import { FcRating, FcShop, FcCollaboration } from 'react-icons/fc';
 import { getCoord } from '../../api/map';
 import { useQuery } from 'react-query';
@@ -31,6 +32,7 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
       >
         <FaCaretRight />
       </S.PlaceFoldBtn>
+        <LoginHeader/>
       <S.PlaceRank>
         <strong>
           {CoordPlaces.data?.coord.region_3depth_name} <br />
