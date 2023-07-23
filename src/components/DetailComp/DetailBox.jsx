@@ -5,8 +5,13 @@ import { getComments, addComment, deleteComment, updateComment } from '../../api
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { auth } from '../../firebase';
+
 import { GiPositionMarker } from 'react-icons/gi';
+
+import DetailUpdate from './DetailUpdate';
+
 import { VscTriangleDown } from 'react-icons/vsc';
+import { MdOutlineMapsHomeWork, MdOutlinePhonelinkRing } from 'react-icons/md';
 import { getUsers } from '../../api/users';
 import {
   CommentInput,
@@ -26,16 +31,20 @@ import {
   StDetailUserReviewInner,
   StCommentBox,
   StCommentHeader,
-  StCommentContent,
+  StCommentBtnCtn,
   StCommentButtons,
-  StBtnWrap,
-  StCommentDetails,
   StDropdownCtn,
   StDropdownCtnInner,
   StDropdown,
   StDropdownBtn,
   StDropdownContent,
-  StDropdownItem
+  StDropdownItem,
+  StModalBox,
+  StModalCtn,
+  StCloseModalBtn,
+  StDetailTitle,
+  StReviewInfo,
+  StReviewInfo2
 } from './DetailStyles';
 
 const DetailBox = ({ placeData }) => {
@@ -45,6 +54,7 @@ const DetailBox = ({ placeData }) => {
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(0);
   const [displayedComments, setDisplayedComments] = useState([]);
+
 
   // Define state variables for edit mode
   const [editMode, setEditMode] = useState(false);
@@ -60,6 +70,14 @@ const DetailBox = ({ placeData }) => {
     setEditCommentId(commentId);
     setEditComment(comment);
     setEditRating(rating);
+
+  const [isOpen, setIsOpen] = useState(false);
+  const openModal = () => {
+    setIsOpen(true);
+  };
+  const closeModal = () => {
+    setIsOpen(false);
+
   };
 
   const { data } = useQuery('comments', getComments, {
@@ -145,7 +163,11 @@ const DetailBox = ({ placeData }) => {
     const numericValue = value.replace(/[^\d]/g, '');
     // 콤마 추가한 문자열 생성
     const formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
     return formattedValue ? formattedValue + '₩' : '';
+
+    return formattedValue;
+
   };
   const handleChange = (event) => {
     // 1000단위마다 콤마를 추가하여 설정
@@ -172,12 +194,6 @@ const DetailBox = ({ placeData }) => {
   });
 
   const deleteMutation = useMutation(deleteComment, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('comments');
-    }
-  });
-
-  const updateMutation = useMutation(updateComment, {
     onSuccess: () => {
       queryClient.invalidateQueries('comments');
     }
@@ -212,13 +228,6 @@ const DetailBox = ({ placeData }) => {
     }
   };
 
-  const updateCommentHandler = (id) => {
-    const confirmed = window.confirm('이 댓글을 수정하시겠습니까?');
-    if (confirmed) {
-      updateMutation.mutate(id);
-    }
-  };
-
   const commentHandler = (event) => {
     setComment(event.target.value);
   };
@@ -239,6 +248,7 @@ const DetailBox = ({ placeData }) => {
   };
   return (
     <>
+
       <StDetailPage>
         <StDetailInner>
           <StDetailInfoWrap>
@@ -322,6 +332,112 @@ const DetailBox = ({ placeData }) => {
               </CommentWrap>
             </StDetailBoxReviewInner>
           </StDetailBoxReview>
+      <StDetailPage style={{ marginTop: '100px' }}>
+        <StDetailBox size="placeTitle">
+          <StDetailTitle>{placeData?.place_name}</StDetailTitle>
+          <StReviewCountBox>
+            <StReviewInfo>⭐ {isNaN(RatingAvg) ? '0.00' : RatingAvg}</StReviewInfo>
+            <StReviewInfo>방문자 리뷰: {commentRatingLength}</StReviewInfo>
+          </StReviewCountBox>
+        </StDetailBox>
+        <StDetailBox size="placeDetail">
+          <StReviewInfo>
+            <MdOutlineMapsHomeWork /> {placeData?.road_address_name}
+          </StReviewInfo>
+          <StReviewInfo>
+            <MdOutlinePhonelinkRing />
+            {placeData?.phone ? placeData?.phone : '사장님 전화번호 넣어주세요!!'}
+          </StReviewInfo>
+        </StDetailBox>
+        <StDetailBox display="block" size="placeReviews">
+          <br />
+          {data
+            ?.filter((comment) => comment.shopId === shopId)
+            .map((comment) => {
+              const formattedDate = formatDate(comment.createdAt);
+              return (
+                <StCommentBox key={comment.id}>
+                  <StCommentHeader>
+                    <StReviewInfo2>
+                      {getUserName(comment.userId)}&nbsp;&nbsp;&nbsp; 리뷰별점 : {comment.rating.toFixed(1)}
+                    </StReviewInfo2>
+                    <StReviewInfo2>
+                      작성일 : {formattedDate !== 'Invalid Date' ? formattedDate : 'No Date'}
+                    </StReviewInfo2>
+                  </StCommentHeader>
+                  <StReviewInfo2>회원권 : {comment.selected}</StReviewInfo2>
+                  <StReviewInfo2>가격 : {comment.price}₩</StReviewInfo2>
+                  <StReviewInfo2>리뷰 내용 : {comment.comment}</StReviewInfo2>
+                  {comment.userId === auth.currentUser.uid ? (
+                    <StCommentBtnCtn>
+                      <StCommentButtons onClick={openModal}>수정</StCommentButtons>
+                      <StCommentButtons
+                        onClick={() => {
+                          deleteCommentHandler(comment.id);
+                        }}
+                      >
+                        삭제
+                      </StCommentButtons>
+                    </StCommentBtnCtn>
+                  ) : (
+                    <></>
+                  )}
+
+                  {isOpen && (
+                    <StModalBox onClick={closeModal}>
+                      <StModalCtn onClick={(event) => event.stopPropagation()}>
+                        <StCloseModalBtn onClick={closeModal}>X</StCloseModalBtn>
+                        <DetailUpdate item={comment ? comment : null} placeData={placeData} closeModal={closeModal} />
+                      </StModalCtn>
+                    </StModalBox>
+                  )}
+                </StCommentBox>
+              );
+            })}
+        </StDetailBox>
+        <StDetailBox size="placeDetail">
+          <h1>리뷰를 남겨보세요</h1>
+          <br />
+          <div>
+            <StarButton active={rating >= 1} onClick={() => handleRatingSelection(1)}>
+              ★
+            </StarButton>
+            <StarButton active={rating >= 2} onClick={() => handleRatingSelection(2)}>
+              ★
+            </StarButton>
+            <StarButton active={rating >= 3} onClick={() => handleRatingSelection(3)}>
+              ★
+            </StarButton>
+            <StarButton active={rating >= 4} onClick={() => handleRatingSelection(4)}>
+              ★
+            </StarButton>
+            <StarButton active={rating >= 5} onClick={() => handleRatingSelection(5)}>
+              ★
+            </StarButton>
+          </div>
+          <StDropdownCtn>
+            <StDropdown>
+              <StDropdownBtn onClick={showDropdown}>
+                {selected || '가격정보를 입력해주세요!!'}
+                <VscTriangleDown />
+                {isActive && (
+                  <StDropdownContent>
+                    {options.map((option) => (
+                      <StDropdownItem
+                        onClick={(event) => {
+                          setSelected(option);
+                          setIsActive(false);
+                        }}
+                      >
+                        {option}
+                      </StDropdownItem>
+                    ))}
+                  </StDropdownContent>
+                )}
+              </StDropdownBtn>
+            </StDropdown>
+            <input type="text" value={price} onChange={(event) => handleChange(event)} placeholder="ex) 3,00,000 ₩" />
+          </StDropdownCtn>
 
           <StDetailUserReview>
             <StDetailUserReviewInner>
