@@ -28,7 +28,6 @@
       "id": 3
     },
     {
-
       "shopId": "25887294",
       "nickName": "",
       "comment": "2",
@@ -43,7 +42,8 @@
       "rating": 3,
       "userId": "vCSXzBzSVRWubjvyPvS41wigNuJ3",
       "id": "dcqAZ-8"
-
+    },
+    {
       "shopId": "27091506",
       "comment": "aaa",
       "rating": 3,
@@ -52,6 +52,26 @@
       "price": "444₩",
       "createdAt": "2023-07-22T03:48:49.672Z",
       "id": 4
+    },
+    {
+      "shopId": "27111982",
+      "comment": "ㅁㄴㅇ",
+      "rating": 5,
+      "userId": "vCSXzBzSVRWubjvyPvS41wigNuJ3",
+      "selected": "헬스이용권 1개월",
+      "price": "113,131,323₩",
+      "createdAt": "2023-07-22T17:50:56.257Z",
+      "id": 5
+    },
+    {
+      "shopId": "27111982",
+      "comment": "내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기내용길게 써보기",
+      "rating": 3,
+      "userId": "vCSXzBzSVRWubjvyPvS41wigNuJ3",
+      "selected": "헬스이용권 1개월",
+      "price": "113,131,323₩",
+      "createdAt": "2023-07-22T18:25:00.281Z",
+      "id": 6
     }
   ],
   "users": [

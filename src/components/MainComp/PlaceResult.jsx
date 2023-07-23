@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as S from './KakaoMap.styled';
 import { Link } from 'react-router-dom/dist';
 import { FaCaretRight } from 'react-icons/fa';
+import LoginHeader from '../Header/LoginHeader';
 
 const PlaceResult = ({ places, CATEGORY_NAMES, countCategory }) => {
   const [isFold, setIsFold] = useState(false);
@@ -16,6 +17,7 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory }) => {
       >
         <FaCaretRight />
       </S.PlaceFoldBtn>
+        <LoginHeader/>
       <S.PlaceRank>
         <strong>
           ㅇㅇ동&nbsp;

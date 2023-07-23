@@ -29,9 +29,9 @@ const Controls = ({ CATEGORY_NAMES, countCategory, setCountCategory, setSearchSu
         <h1>
           <Link to={'/'}>💪PROtein</Link>
         </h1>
-        <div>
+        {/* <div>
           <button>로그인관련</button>
-        </div>
+        </div> */}
       </S.ControlsHeader>
       <S.ControlsSearch>
         <form onSubmit={onSubmitHandler}>
