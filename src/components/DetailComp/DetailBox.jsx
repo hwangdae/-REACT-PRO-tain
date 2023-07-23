@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import styled, { css } from 'styled-components';
 import { getComments, addComment, deleteComment, updateComment } from '../../api/comments';
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -31,6 +30,7 @@ import {
   StReviewInfo,
   StReviewInfo2
 } from './DetailStyles';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const DetailBox = ({ placeData }) => {
   const navigate = useNavigate();
@@ -47,6 +47,21 @@ const DetailBox = ({ placeData }) => {
   const closeModal = () => {
     setIsOpen(false);
   };
+
+  const [authLoading, setAuthLoading] = useState(true);
+  // 로그인한 사용자 정보를 관리하는 상태 변수
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    // onAuthStateChanged 메서드로 사용자 정보를 받아옴
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+      setAuthLoading(false); // 사용자 정보를 받아오는 것이 완료됨을 표시
+    });
+
+    // 컴포넌트가 unmount 될 때 리스너를 정리
+    return () => unsubscribe();
+  }, []);
 
   const { data } = useQuery('comments', getComments, {
     onSuccess: (data) => {
@@ -125,6 +140,7 @@ const DetailBox = ({ placeData }) => {
       return ['죄송합니다. 아직 해당 기관 정보를 받지 못했습니다.'];
     }
   })();
+
 
   const addComma = (value) => {
     // 입력된 값에서 숫자 이외의 문자를 모두 제거
@@ -210,6 +226,11 @@ const DetailBox = ({ placeData }) => {
     const date = new Date(dateString);
     return isNaN(date) ? 'Invalid Date' : date.toLocaleDateString('ko-KR', options);
   };
+
+      // 사용자 정보 로딩 중이면 로딩 스피너 또는 로딩 메시지를 보여줄 수도 있음
+      if (authLoading) {
+        return <div>Loading...</div>;
+      }
   return (
     <>
       <StDetailPage style={{ marginTop: '100px' }}>
@@ -248,7 +269,7 @@ const DetailBox = ({ placeData }) => {
                   <StReviewInfo2>회원권 : {comment.selected}</StReviewInfo2>
                   <StReviewInfo2>가격 : {comment.price}₩</StReviewInfo2>
                   <StReviewInfo2>리뷰 내용 : {comment.comment}</StReviewInfo2>
-                  {comment.userId === auth.currentUser.uid ? (
+                  {(auth.currentUser.uid != null) && (comment.userId === auth.currentUser.uid) && (
                     <StCommentBtnCtn>
                       <StCommentButtons onClick={openModal}>수정</StCommentButtons>
                       <StCommentButtons
@@ -259,8 +280,6 @@ const DetailBox = ({ placeData }) => {
                         삭제
                       </StCommentButtons>
                     </StCommentBtnCtn>
-                  ) : (
-                    <></>
                   )}
 
                   {isOpen && (
