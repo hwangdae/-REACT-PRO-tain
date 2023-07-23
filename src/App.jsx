@@ -1,7 +1,5 @@
 import React from 'react';
 import Router from './shared/Router';
-import { useAuthUser } from '@react-query-firebase/auth';
-import { auth } from './firebase';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
 function App() {

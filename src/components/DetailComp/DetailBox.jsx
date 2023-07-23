@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { getComments, addComment, deleteComment, updateComment } from '../../api/comments';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getComments, addComment, deleteComment } from '../../api/comments';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { auth } from '../../firebase';
 import DetailUpdate from './DetailUpdate';
@@ -30,10 +29,8 @@ import {
   StReviewInfo,
   StReviewInfo2
 } from './DetailStyles';
-import { onAuthStateChanged } from 'firebase/auth';
 
 const DetailBox = ({ placeData }) => {
-  const navigate = useNavigate();
   const params = useParams();
 
   const [comment, setComment] = useState('');
@@ -70,16 +67,9 @@ const DetailBox = ({ placeData }) => {
   });
 
   const { data: userData } = useQuery('users', getUsers, {
-    onSuccess: (userData) => {
-    }
+    onSuccess: (userData) => {}
   });
   const shopId = params.id;
-
-  // const { isLoading, isError, data } = useQuery('comments', getComments, {
-  //   onSuccess: (data) => {
-  //     setDisplayedComments(data.filter((comment) => comment.shopId === shopId));
-  //   }
-  // });
 
   //가격정보 select창 관련
   const currentPlace = placeData.category_name.split('>').pop().trim();
@@ -137,7 +127,6 @@ const DetailBox = ({ placeData }) => {
       return ['죄송합니다. 아직 해당 기관 정보를 받지 못했습니다.'];
     }
   })();
-
 
   const addComma = (value) => {
     // 입력된 값에서 숫자 이외의 문자를 모두 제거
@@ -223,10 +212,10 @@ const DetailBox = ({ placeData }) => {
     return isNaN(date) ? 'Invalid Date' : date.toLocaleDateString('ko-KR', options);
   };
 
-      // 사용자 정보 로딩 중이면 로딩 스피너 또는 로딩 메시지를 보여줄 수도 있음
-      if (authLoading) {
-        return <div>Loading...</div>;
-      }
+  // 사용자 정보 로딩 중이면 로딩 스피너 또는 로딩 메시지를 보여줄 수도 있음
+  if (authLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       <StDetailPage style={{ marginTop: '100px' }}>
@@ -263,9 +252,9 @@ const DetailBox = ({ placeData }) => {
                     </StReviewInfo2>
                   </StCommentHeader>
                   <StReviewInfo2>회원권 : {comment.selected}</StReviewInfo2>
-                  <StReviewInfo2>가격 : {comment.price}₩</StReviewInfo2>
+                  <StReviewInfo2>가격 : ₩ {comment.price}</StReviewInfo2>
                   <StReviewInfo2>리뷰 내용 : {comment.comment}</StReviewInfo2>
-                  {(auth.currentUser.uid != null) && (comment.userId === auth.currentUser.uid) && (
+                  {auth.currentUser.uid != null && comment.userId === auth.currentUser.uid && (
                     <StCommentBtnCtn>
                       <StCommentButtons onClick={openModal}>수정</StCommentButtons>
                       <StCommentButtons
@@ -331,7 +320,7 @@ const DetailBox = ({ placeData }) => {
                 )}
               </StDropdownBtn>
             </StDropdown>
-            <input type="text" value={price} onChange={(event) => handleChange(event)} placeholder="ex) 3,00,000 ₩" />
+            <input type="text" value={price} onChange={(event) => handleChange(event)} placeholder="ex) ₩ 3,00,000 " />
           </StDropdownCtn>
 
           <CommentInput
