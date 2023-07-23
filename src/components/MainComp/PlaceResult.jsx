@@ -16,18 +16,11 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
   useEffect(() => {
     CoordPlaces.refetch();
   }, [mapCenter]);
-  const coord = CoordPlaces.data?.coord;
-  const coordPlaces = CoordPlaces.data?.places;
-  console.log('coord => ', CoordPlaces);
-  //   console.log('1. 카카오지도 로컬 axios 테스트 => ', coord.region_3depth_name);
-  // console.log('coordPlaces리스트 => ', coordPlaces);
 
-  // coordPlaces 리스트(지역장소) - 필터 - 가게id 기준
-  // - data
-  // 평점 정보가 없습니다.
+  // 댓글 및 평점 데이터
   const { data: commentsData } = useQuery('comments', getComments);
-  console.log('댓글정보 => ', commentsData);
 
+  // TOP5:: 행정동 기준 평점 필터링
   let rankComments = [];
   CoordPlaces.data?.places.map((coordItem) => {
     let id = coordItem.id;
@@ -64,15 +57,6 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
     return 0;
   });
   rankComments.length = 5;
-  console.log('내가만든!! sort!! => ', rankComments);
-
-  const filteredTest = CoordPlaces.data?.places.filter((coordItem) => {
-    commentsData?.forEach((comment) => {
-      if (coordItem.id === undefined || coordItem.id != comment.shopId) return false;
-    });
-    return true;
-  });
-  console.log('필터링 테스트 => ', filteredTest);
 
   return (
     <>
@@ -117,7 +101,7 @@ const PlaceResult = ({ places, CATEGORY_NAMES, countCategory, mapCenter }) => {
           </strong>
           <ol>
             {!rankComments[0] ? (
-              <li class>평점 정보가 없습니다</li>
+              <li>평점 정보가 없습니다</li>
             ) : (
               rankComments?.map((place) => {
                 return (

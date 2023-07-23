@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const MapLayout = styled.div`
   overflow: hidden;
   position: absolute;
-  top: 5rem;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
@@ -88,6 +88,17 @@ export const ControlsHeader = styled.div`
     font-size: 26px;
     text-decoration: none;
     text-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    color: #fff;
+  }
+
+  button {
+    min-width: 70px;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 6px;
+    font: inherit;
+    font-size: 15px;
+    background: transparent;
     color: #fff;
   }
 `;

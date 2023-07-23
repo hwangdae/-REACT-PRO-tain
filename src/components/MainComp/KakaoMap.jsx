@@ -268,7 +268,6 @@ const KakaoMap = () => {
       content.appendChild(detailBtn);
 
       const closeBtn = content.querySelector('.infoWindow-closeBtn');
-      console.log(closeBtn);
 
       closeBtn.addEventListener('click', closeInfoWindow);
 

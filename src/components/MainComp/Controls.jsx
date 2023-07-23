@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './KakaoMap.styled';
-import { Link } from 'react-router-dom/dist';
+import { Link, useNavigate } from 'react-router-dom/dist';
 import { TbYoga } from 'react-icons/tb';
 import { GiMuscularTorso, GiAbstract020, GiMusicalNotes } from 'react-icons/gi';
 import { FaHeart } from 'react-icons/fa';
 import { FiSearch } from 'react-icons/fi';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase';
 
 const Controls = ({ CATEGORY_NAMES, countCategory, setCountCategory, setSearchSubmitValue }) => {
   const CATEGORY_ICONS = [<GiMuscularTorso />, <TbYoga />, <GiAbstract020 />, <GiMusicalNotes />, <FaHeart />];
@@ -23,6 +25,30 @@ const Controls = ({ CATEGORY_NAMES, countCategory, setCountCategory, setSearchSu
     // searchPlaces(selectedCategory);
   };
 
+  // 로그인
+  const navigate = useNavigate();
+  const token = sessionStorage.getItem('token') || null;
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (token) {
+      setIsLoggedIn(true);
+    } else {
+      // 임시로 true값으로 설정.
+      setIsLoggedIn(false);
+    }
+  }, [isLoggedIn]);
+
+  const logOutFunc = async (event) => {
+    event.preventDefault();
+    await signOut(auth);
+    sessionStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/');
+    window.location.reload();
+  };
+
   return (
     <S.ControlsBox>
       <S.ControlsHeader>
@@ -30,7 +56,11 @@ const Controls = ({ CATEGORY_NAMES, countCategory, setCountCategory, setSearchSu
           <Link to={'/'}>💪PROtein</Link>
         </h1>
         <div>
-          <button>로그인관련</button>
+          {isLoggedIn === true ? (
+            <button onClick={(event) => logOutFunc(event)}>로그아웃</button>
+          ) : (
+            <button onClick={() => navigate('/login')}>로그인</button>
+          )}
         </div>
       </S.ControlsHeader>
       <S.ControlsSearch>
