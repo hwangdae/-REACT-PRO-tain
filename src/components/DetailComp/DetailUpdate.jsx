@@ -1,7 +1,7 @@
 import React from 'react';
 import { updateComment } from '../../api/comments';
 import { useState } from 'react';
-import { useMutation, useQueryClient, } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { VscTriangleDown } from 'react-icons/vsc';
 import {
   CommentInput,
@@ -17,7 +17,7 @@ import {
   StPriceInput
 } from './DetailStyles';
 
-const DetailUpdate = ({ item, placeData }) => {
+const DetailUpdate = ({ item, placeData, closeModal }) => {
   const queryClient = useQueryClient();
 
   const updateMutation = useMutation(updateComment, {
@@ -105,7 +105,6 @@ const DetailUpdate = ({ item, placeData }) => {
     } else {
       const confirmed = window.confirm('이 댓글을 수정하시겠습니까?');
       if (confirmed) {
-
         const updatedComment = {
           comment,
           rating,
@@ -113,6 +112,7 @@ const DetailUpdate = ({ item, placeData }) => {
           price
         };
         updateMutation.mutate({ id: item.id, updatedComment });
+        closeModal();
       } else {
         return false;
       }
@@ -154,7 +154,6 @@ const DetailUpdate = ({ item, placeData }) => {
             {selected || '가격정보를 입력해주세요!!'}
             <VscTriangleDown />
             {isActive && (
-              
               <StDropdownContent>
                 {options.map((option) => (
                   <StDropdownItem
@@ -170,7 +169,12 @@ const DetailUpdate = ({ item, placeData }) => {
             )}
           </StDropdownBtn>
         </StDropdown>
-        <StPriceInput type="text" value={price} onChange={(event) => handleChange(event)} placeholder="ex) 3,00,000 ₩" />
+        <StPriceInput
+          type="text"
+          value={price}
+          onChange={(event) => handleChange(event)}
+          placeholder="ex) ₩ 3,00,000"
+        />
       </StDropdownCtn>
 
       <CommentInput
