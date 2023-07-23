@@ -73,20 +73,6 @@ export const StReviewCountBox = styled.div`
   margin: 1rem;
 `;
 
-export const StReviewInfo = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  color: #ff6e6e;
-  background-color: white;
-  border: 1px solid #ff6e6e;
-  font-weight: bold;
-  border-radius: 10px;
-  padding: 10px;
-  margin: 0 1rem;
-`;
-
 export const StReviewInfo2 = styled.div`
   display: flex;
   flex-direction: row;
@@ -130,15 +116,6 @@ export const StCommentBtnCtn = styled.div`
   display: flex;
   width: 100%;
   justify-content: flex-end;
-`;
-
-export const StCommentButtons = styled.div`
-  margin: 0px 5px;
-  gap: 5px;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 export const StCommentContent = styled.div`
@@ -232,7 +209,7 @@ export const StModalCtn = styled.div`
   background-color: white;
   padding: 20px;
   width: 60%;
-  height: 20%;
+  height: 30%;
   border-radius: 12px;
   z-index: 2;
   animation: dropTop 0.4s linear;
@@ -247,12 +224,33 @@ export const StModalCtn = styled.div`
     }
   }
 `;
+
+export const StModalBtnCtn = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const StReviewInfoModal = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  color: #ff6e6e;
+  background-color: white;
+  border: 1px solid #ff6e6e;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 1rem;
+  margin-top: 20px;
+`;
+
 export const StCloseModalBtn = styled.button`
   background-color: White;
   border: 1px solid black;
   border-radius: 50%;
   transform: scale(1.2);
-  margin-left: 300px;
 `;
 
 export const StUpdateModalCtn = styled.div`
@@ -260,4 +258,29 @@ export const StUpdateModalCtn = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+`;
+
+export const StCommentButtons = styled.div`
+  margin: 0px 5px;
+  gap: 5px;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const StReviewInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  color: #ff6e6e;
+  background-color: white;
+  border: 1px solid #ff6e6e;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 0 1rem;
+  margin-top: 20px;
+  justify-content: center;
 `;

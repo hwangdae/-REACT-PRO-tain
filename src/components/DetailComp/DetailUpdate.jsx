@@ -129,7 +129,6 @@ const DetailUpdate = ({ item, placeData, closeModal }) => {
 
   return (
     <StUpdateModalCtn>
-      <StReviewInfo>리뷰를 수정해주세요!!</StReviewInfo>
       <br />
       <div>
         <StarButton active={rating >= 1} onClick={() => handleRatingSelection(1)}>

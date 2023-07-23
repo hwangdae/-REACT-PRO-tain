@@ -28,7 +28,9 @@ import {
   StDetailTitle,
   StReviewInfo,
   StReviewInfo2,
-  StPriceInput
+  StPriceInput,
+  StModalBtnCtn,
+  StReviewInfoModal
 } from './DetailStyles';
 
 const DetailBox = ({ placeData }) => {
@@ -273,7 +275,10 @@ const DetailBox = ({ placeData }) => {
                   {isOpen && (
                     <StModalBox onClick={closeModal}>
                       <StModalCtn onClick={(event) => event.stopPropagation()}>
-                        <StCloseModalBtn onClick={closeModal}>X</StCloseModalBtn>
+                        <StModalBtnCtn>
+                          <StReviewInfoModal>리뷰를 수정해주세요!!</StReviewInfoModal>
+                          <StCloseModalBtn onClick={closeModal}>X</StCloseModalBtn>
+                        </StModalBtnCtn>
                         <DetailUpdate item={comment ? comment : null} placeData={placeData} closeModal={closeModal} />
                       </StModalCtn>
                     </StModalBox>
@@ -283,7 +288,7 @@ const DetailBox = ({ placeData }) => {
             })}
         </StDetailBox>
         <StDetailBox size="placeDetail">
-          <h1>리뷰를 남겨보세요</h1>
+          <StReviewInfo>리뷰를 남겨보세요</StReviewInfo>
           <br />
           <div>
             <StarButton active={rating >= 1} onClick={() => handleRatingSelection(1)}>
