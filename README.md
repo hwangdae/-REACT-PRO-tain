@@ -8,6 +8,7 @@
 리뷰와 별점을 남길 수 있는 사이트입니다.
 
 ## 🏠 배포 주소
+https://react-pro-tein.vercel.app/
 
 ## 📚 Stack
 ### Environment
