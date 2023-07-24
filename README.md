@@ -9,6 +9,8 @@
 
 ## 🏠 배포 주소
 
+https://react-pro-tein.vercel.app/
+
 ## 📚 Stack
 ### Environment
 <img src="https://img.shields.io/badge/visualstudiocode-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=white"> <img alt="GitHub" src ="https://img.shields.io/badge/GitHub-181717.svg?&style=for-the-badge&logo=GitHub&logoColor=white"/>
@@ -50,6 +52,11 @@
 
 ## 📺 화면 구성
 
+<img src="https://github.com/TerryEHLee/-REACT-PRO-tain/assets/105066603/40d12ad1-3439-438c-a344-d183bd807e2b">
+<img src="https://github.com/TerryEHLee/-REACT-PRO-tain/assets/105066603/975e8a48-0420-4832-a2d5-f4874f2d9146">
+<img src="https://github.com/TerryEHLee/-REACT-PRO-tain/assets/105066603/6e35499b-da9f-47d2-a402-546b455321fe">
+<img src="https://github.com/TerryEHLee/-REACT-PRO-tain/assets/105066603/3c37a2ea-eec5-4840-a87a-678f3d044be0">
+<img src="https://github.com/TerryEHLee/-REACT-PRO-tain/assets/105066603/376fd09e-44b8-41b6-a138-aad2c1431e0d">
 
 
 
