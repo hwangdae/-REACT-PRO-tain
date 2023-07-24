@@ -5,7 +5,16 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { addUsers, getUsers } from '../../api/users';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
-import { StRegisterSection, StRegisterForm, StPwBox, StRegisterInputBox, StRegisterInput, StRegisterBtn, StRegisterMsg, StGoLoginSpan } from './RegisterCompStyle'
+import {
+  StRegisterSection,
+  StRegisterForm,
+  StPwBox,
+  StRegisterInputBox,
+  StRegisterInput,
+  StRegisterBtn,
+  StRegisterMsg,
+  StGoLoginSpan
+} from './RegisterCompStyle';
 
 const RegisterComp = () => {
   const navigate = useNavigate();
@@ -31,7 +40,7 @@ const RegisterComp = () => {
   const mutation = useMutation(addUsers, {
     onSuccess: () => {
       queryClient.invalidateQueries('users');
-      // console.log('신규 회원 가입 & 데이터 최신화 성공!!!');
+      // console.log('2. 신규 회원 가입 & 데이터 최신화 성공!!!');
     },
     onError: () => {
       alert('죄송합니다. 현재 서버가 불안정한 상태입니다. 최대한 빠르게 복구하겠습니다.');
@@ -157,7 +166,7 @@ const RegisterComp = () => {
         mutation.mutate(newUser);
         alert('회원가입을 완료했습니다.');
         navigate('/');
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (error) {
       alert('회원가입 파이어베이스 오류');
@@ -199,17 +208,23 @@ const RegisterComp = () => {
         <StRegisterInputBox>
           <label>비밀번호</label>
           <StPwBox>
-          <br />
-          <StRegisterInput
-            name="pw"
-            type={isShowPw ? 'text' : 'password'}
-            placeholder="영문 대소문자, 숫자, 특수문자 포함 8자 이상"
-            value={pw}
-            onChange={(event) => HandleInputChange(event, setPw, setPwMessage)}
-            onBlur={(event) => HandleInputValidation(event)}
-          />
-          <br />
-          <div>{isShowPw ? <AiFillEyeInvisible className="eyeIcon" onClick={toggleShowPw} /> : <AiFillEye className="eyeIcon" onClick={toggleShowPw} />}</div>
+            <br />
+            <StRegisterInput
+              name="pw"
+              type={isShowPw ? 'text' : 'password'}
+              placeholder="영문 대소문자, 숫자, 특수문자 포함 8자 이상"
+              value={pw}
+              onChange={(event) => HandleInputChange(event, setPw, setPwMessage)}
+              onBlur={(event) => HandleInputValidation(event)}
+            />
+            <br />
+            <div>
+              {isShowPw ? (
+                <AiFillEyeInvisible className="eyeIcon" onClick={toggleShowPw} />
+              ) : (
+                <AiFillEye className="eyeIcon" onClick={toggleShowPw} />
+              )}
+            </div>
           </StPwBox>
           <StRegisterMsg className="message"> {pwMessage} </StRegisterMsg>
         </StRegisterInputBox>
@@ -225,7 +240,13 @@ const RegisterComp = () => {
               onChange={(event) => HandleInputChange(event, setPwCheck, setPwCheckMessage)}
               onBlur={(event) => HandleInputValidation(event)}
             />
-            <div>{isShowPwCheck ? <AiFillEyeInvisible className="eyeIcon" onClick={toggleShowPwCheck} /> : <AiFillEye className="eyeIcon" onClick={toggleShowPwCheck} />}</div>
+            <div>
+              {isShowPwCheck ? (
+                <AiFillEyeInvisible className="eyeIcon" onClick={toggleShowPwCheck} />
+              ) : (
+                <AiFillEye className="eyeIcon" onClick={toggleShowPwCheck} />
+              )}
+            </div>
             <br />
           </StPwBox>
           <StRegisterMsg className="message"> {pwCheckMessage} </StRegisterMsg>
@@ -238,6 +259,3 @@ const RegisterComp = () => {
 };
 
 export default RegisterComp;
-
-
-
